@@ -4,6 +4,11 @@ const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
 const port = 8080;
 
+const path = require("path");
+app.set("view engine","ejs");
+app.set("views",path.join(__dirname,"views"));
+
+
 main()
   .then((res) => {
     console.log("Connected to DB");
@@ -23,17 +28,24 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.get("/test", async(req, res) => {
-  let sample = new Listing({
-    title: "my home ",
-    description: "ghar jaisa ghar",
-    price: 1000,
-    country: "India",
-    location: "Varanasi",
-  });
+// app.get("/test", async(req, res) => {
+//   let sample = new Listing({
+//     title: "my home ",
+//     description: "ghar jaisa ghar",
+//     price: 1000,
+//     country: "India",
+//     location: "Varanasi",
+//   });
 
-  await sample.save();
-  console.log("sample was saved");
-  res.send("successful testing");
-  
+//   await sample.save();
+//   console.log("sample was saved");
+//   res.send("successful testing");
+
+// });
+
+
+//index route 
+app.get("/listings", async (req, res) => {
+  const allListings = await Listing.find({});
+  res.render("listings/index.ejs",{allListings});
 });
