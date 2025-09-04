@@ -6,12 +6,13 @@ const listingSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   image: {
-    type: String,
-    default: "https://unsplash.com/photos/brown-boat-near-dock-qkfxBc2NQ18",
-    set: (v) =>
-      v === ""
-        ? "https://unsplash.com/photos/brown-boat-near-dock-qkfxBc2NQ18"
-        : v,
+    url: {
+      type: String,
+      default: "https://unsplash.com/photos/brown-boat-near-dock-qkfxBc2NQ18",
+    },
+    filename: {
+      type: String,
+    },
   },
   price: { type: Number, required: true },
   location: { type: String, required: true },
