@@ -5,30 +5,25 @@
     <h3>Edit Listing</h3>
     <form action="/listings/<%= listing._id%>?_method=PUT" method="POST" >
       <br />
-
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input class="form-control"type="text" name="listing[title]" value="<%= listing.title %>" />
       </div>
-
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" name="listing[description]" id="" cols="30" rows="5">
-        <%= listing.description %>
-    </textarea
-        >
+          <%= listing.description %> [cite: 7]
+        </textarea>
       </div>
-
       <div class="mb-3">
         <label for="image" class="form-label">Image</label>
         <input
           class="form-control"
           type="text"
           name="listing[image]"
-          value="<%= listing.image.url %>"
+          [cite_start]value="<%= listing.image.url %>" [cite: 8]
         />
       </div>
-
       <div class="row">
         <div class="col-4 mb-md-3">
           <label for="price" class="form-label">Price</label>
@@ -36,33 +31,30 @@
             class="form-control"
             type="text"
             name="listing[price]"
-            value="<%= listing.price %>"
+            [cite_start]value="<%= listing.price %>" [cite: 9]
           />
         </div>
-
         <div class="col-8 mb-md-3">
           <label for="country" class="form-label">Country</label>
           <input
             class="form-control"
             type="text"
             name="listing[country]"
-            value="<%= listing.country %>"
+            [cite_start]value="<%= listing.country %>" [cite: 10]
           />
         </div>
       </div>
-
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input
           class="form-control"
           type="text"
           name="listing[location]"
-          value="<%= listing.location %>"
+          [cite_start]value="<%= listing.location %>" [cite: 11]
         />
       </div>
-
       <button class="btn btn-dark edit-btn">Edit</button>
-    <br><br><br>
+      <br><br><br>
     </form>
   </div>
 </div>

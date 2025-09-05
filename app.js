@@ -92,19 +92,24 @@ app.get("/listings/:id/edit",async (req,res)=>{
 //update route
 app.put("/listings/:id", async (req,res)=>{
   let {id} = req.params;
-  let listing = req.body.listing;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let {image, ...updatedListing} = req.body.listing;
+  if(image){
+    updatedListing.image = { url: image };
+  }
+  await Listing.findByIdAndUpdate(id, updatedListing);
   res.redirect(`/listings/${id}`);
-  /* let { title, description, image, price, country, location } = req.body.listing;
-  await Listing.findByIdAndUpdate(id, {
-    title,
-    description,
-    image: { url: image },
-    price,
-    country,
-    location,
-  }); */
 });
+
+/* let { title, description, image, price, country, location } = req.body.listing;
+await Listing.findByIdAndUpdate(id, {
+  title,
+  description,
+  image: { url: image },
+  price,
+  country,
+  location,
+}); */
+
 
 //delete route
 app.delete("/listings/:id", async (req,res)=>{
