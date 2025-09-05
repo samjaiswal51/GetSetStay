@@ -98,4 +98,12 @@ app.put("/listings/:id", async (req,res)=>{
     country,
     location,
   }); */
-})
+});
+
+//delete route
+app.delete("/listings/:id", async (req,res)=>{
+  let {id} = req.params;
+  let delListing = await Listing.findByIdAndDelete(id);
+  console.log(delListing);
+  res.redirect("/listings");
+});
