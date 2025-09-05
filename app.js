@@ -14,6 +14,12 @@ app.use(express.urlencoded({extended:true}))
 const methodOverride = require("method-override")
 app.use(methodOverride("_method"));
 
+const ejsMate = require("ejs-mate");
+app.engine('ejs', ejsMate);
+
+app.use(express.static(path.join(__dirname,"/public")));
+
+
 main()
   .then((res) => {
     console.log("Connected to DB");
