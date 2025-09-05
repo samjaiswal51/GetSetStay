@@ -11,6 +11,9 @@ app.set("views",path.join(__dirname,"views"));
 
 app.use(express.urlencoded({extended:true}))
 
+const methodOverride = require("method-override")
+app.use(methodOverride("_method"));
+
 main()
   .then((res) => {
     console.log("Connected to DB");
@@ -71,4 +74,28 @@ app.get("/listings/:id", async (req,res)=>{
   const listing = await Listing.findById(id);
   res.render("listings/show.ejs",{listing});
 
+})
+
+//edit route
+app.get("/listings/:id/edit",async (req,res)=>{
+  let {id} = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/edit.ejs",{listing});
+});
+
+//update route
+app.put("/listings/:id", async (req,res)=>{
+  let {id} = req.params;
+  let listing = req.body.listing;
+  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  res.redirect(`/listings/${id}`);
+  /* let { title, description, image, price, country, location } = req.body.listing;
+  await Listing.findByIdAndUpdate(id, {
+    title,
+    description,
+    image: { url: image },
+    price,
+    country,
+    location,
+  }); */
 })
