@@ -13,9 +13,9 @@
           <div class="card-img-overlay"></div>
           <div class="card-body">
             <p class="card-text">
-              <b b><%= listing.title %></b>
+              <b><%= listing.title %></b>
                 <br>
-              &#8377 <%= listing.price.toLocaleString("en-IN") %> per/night
+              &#8377 <%= listing.price ? listing.price.toLocaleString("en-IN") : 'Price not available' %> per/night
             </p>
           </div>
         </div>
