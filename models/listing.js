@@ -8,7 +8,7 @@ const listingSchema = new Schema({
   image: {
     url: {
       type: String,
-      default: "https://unsplash.com/photos/brown-boat-near-dock-qkfxBc2NQ18",
+      default: "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
     },
     filename: {
       type: String,

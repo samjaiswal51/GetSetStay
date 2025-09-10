@@ -68,8 +68,10 @@ app.get("/listings/new",(req,res)=>{
 
 app.post("/listings",async(req,res)=>{
   //let {title,description,image,price,country,location}=req.body;
-  let listing = req.body.listing;
-  const newListing = new Listing(listing);
+  const newListing = new Listing(req.body.listing);
+  if (req.body.listing.image) {
+    newListing.image = { url: req.body.listing.image };
+  }
   await newListing.save();
   res.redirect("/listings");
 })
