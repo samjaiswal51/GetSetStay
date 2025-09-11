@@ -5,6 +5,7 @@ const Listing = require("./models/listing.js");
 const port = 8080;
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const { lsitingSchema, listingSchema } = require("./schema.js");
 const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -53,6 +54,16 @@ app.get("/", (req, res) => {
 
 // });
 
+const validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+  if (error) {
+    let errmsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errmsg);
+  } else {
+    next();
+  }
+};
+
 //index route
 app.get(
   "/listings",
@@ -69,13 +80,26 @@ app.get("/listings/new", (req, res) => {
 
 app.post(
   "/listings",
+  validateListing,
   wrapAsync(async (req, res, next) => {
+    //let {title,description,image,price,country,location}=req.body;
+    const newListing = new Listing(req.body.listing);
+
+    /* or use joi 
     if (!req.body.listing) {
       throw new ExpressError(400, "send valid data for listing");
     }
+    if(!req,body.listing.description){
+      throw new ExpressError(400, "Description is missing");
+    }
+    if(!req,body.listing.location){
+      throw new ExpressError(400, "Location is missing");
+    }
+    if(!req,body.listing.country){
+      throw new ExpressError(400, "Country is missing");
+    }
+    */
 
-    //let {title,description,image,price,country,location}=req.body;
-    const newListing = new Listing(req.body.listing);
     if (req.body.listing.image) {
       newListing.image = { url: req.body.listing.image };
     }
@@ -107,12 +131,10 @@ app.get(
 //update route
 app.put(
   "/listings/:id",
+  validateListing,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let { image, ...updatedListing } = req.body.listing;
-    if (!req.body.listing) {
-      throw new ExpressError(400, "send valid data for listing");
-    }
     if (image) {
       updatedListing.image = { url: image };
     }
@@ -150,5 +172,6 @@ app.use((err, req, res, next) => {
   let { statusCode, message } = err;
   if (!statusCode) statusCode = 500;
   if (!message) message = "Oh No, Something Went Wrong!";
-  res.status(statusCode).send(message); // It's better to render an error page
+  // res.status(statusCode).send(message);
+  res.status(statusCode).render("listings/error.ejs", { err });
 });
